@@ -18,27 +18,18 @@ public class JobModel {
     @Column(name = "job_title")
     private String jobTitle;
 
+    @Column(name= "company_logo")
+    private String companyLogo;
+
     @Column(name = "company_address")
     private String companyAddress;
-
-    @Column(name = "top_reasons")
-    private String topReasons;
-
-    @Column(name = "skill_requirement")
-    private String skillRequirement;
-
-    @Column(name = "job_description")
-    private String jobDescription;
-
-//    @Column(name = "time_updated")
-//    private String timeUpdated;
 
     @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "reason_choosing")
-    private String reasonChoosing;
-
     @Column(name = "link_job")
     private String linkJob;
+
+    @Column(name = "type")
+    private String type;
 }
