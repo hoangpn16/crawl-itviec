@@ -320,11 +320,10 @@ public class Content {
             "            <div class=\"container\">\n" +
             "                <div class=\"gridFilter text-center mb-50\">\n" +
             "                    <button class=\"active\" data-filter=\"*\">ALL</button>\n" +
-            "                    <button data-filter=\".filter1\">JAVA</button>\n" +
-            "                    <button data-filter=\".filter2\">PYTHON</button>\n" +
-            "                    <button data-filter=\".filter3\">FRONTEND</button>\n" +
-            "                    <button data-filter=\".filter4\">AI</button>\n" +
-            "                    <button data-filter=\".filter5\">OTHER</button>\n" +
+            "                    <button data-filter=\".java\">JAVA</button>\n" +
+            "                    <button data-filter=\".python\">PYTHON</button>\n" +
+            "                    <button data-filter=\".frontend\">FRONTEND</button>\n" +
+            "                    <button data-filter=\".ai\">AI</button>\n" +
             "                </div>\n" +
             "                <div class=\"row grid\">";
 

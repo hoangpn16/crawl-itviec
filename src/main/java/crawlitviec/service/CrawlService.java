@@ -19,7 +19,6 @@ import java.util.Locale;
 
 @Service
 public class CrawlService {
-    private static List<String> listLink = new ArrayList<>();
 
     @Autowired
     JobRepository jobRepository;
@@ -27,7 +26,7 @@ public class CrawlService {
 
     public void parserAllJob(String type) {
         String url = "https://itviec.com/it-jobs/"+ type;
-        listLink = parserListLink(url);
+        List<String> listLink = parserListLink(url);
         for (String link: listLink) {
           JobModel jobModel=  parserDetailJob(link,type.toLowerCase());
           jobRepository.save(jobModel);
@@ -37,6 +36,7 @@ public class CrawlService {
     }
 
     public List<String> parserListLink(String url) {
+        List<String> listLink = new ArrayList<>();
         Document html = getHtmlContent(url);
         Elements elements = html.select("h2.title");
         for (int i = 0; i < elements.size() ; i++) {
@@ -92,7 +92,7 @@ public class CrawlService {
         List<JobModel> listJob = jobRepository.findAll();
         String content=Content.header+"";
         for (JobModel job: listJob) {
-            content = content +"<div class=\"col-lg-4 col-md-6 grid-item filter1\">\n" +
+            content = content +"<div class=\"col-lg-4 col-md-6 grid-item filter1 "+ job.getType()+"\">\n" +
                     "                        <div class=\"courses-item1 mb-30\" id=\"list-it\">\n" +
                     "                            <div class=\"img-part1\">\n" +
                     "                                <img src=\""+job.getCompanyLogo()+"\"\n" +
