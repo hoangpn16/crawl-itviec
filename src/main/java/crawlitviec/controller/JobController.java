@@ -17,12 +17,13 @@ public class JobController {
     private static Logger logger = LogManager.getLogger(JobController.class);
     @Autowired
     CrawlService service;
-
+    //Link crawl data
+    //http://localhost:8081/itviec/crawldata?type=java,python,ai,frontend
     @GetMapping(value = "/crawldata")
     public String crawlData(@RequestParam(name = "type") String type){
         String [] list_type = type.split(",");
         for (String tp: list_type) {
-            logger.info("Crawling type = "+ tp);
+            logger.info("Crawling type = "+ tp.toUpperCase());
             service.parserAllJob(tp);
         }
         return "Completed";

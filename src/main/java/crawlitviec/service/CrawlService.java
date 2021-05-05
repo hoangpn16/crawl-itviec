@@ -2,6 +2,8 @@ package crawlitviec.service;
 
 import crawlitviec.repository.entity.JobModel;
 import crawlitviec.repository.JobRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,16 +22,19 @@ import java.util.Locale;
 @Service
 public class CrawlService {
 
+    Logger logger = LogManager.getLogger(CrawlService.class);
+
     @Autowired
     JobRepository jobRepository;
 
 
     public void parserAllJob(String type) {
-        String url = "https://itviec.com/it-jobs/"+ type;
+        String url = "https://itviec.com/it-jobs/" + type;
         List<String> listLink = parserListLink(url);
-        for (String link: listLink) {
-          JobModel jobModel=  parserDetailJob(link,type.toLowerCase());
-          jobRepository.save(jobModel);
+        for (String link : listLink) {
+            logger.info("Crawling link =" + link);
+            JobModel jobModel = parserDetailJob(link, type.toLowerCase());
+            jobRepository.save(jobModel);
         }
 
 
@@ -39,10 +44,10 @@ public class CrawlService {
         List<String> listLink = new ArrayList<>();
         Document html = getHtmlContent(url);
         Elements elements = html.select("h2.title");
-        for (int i = 0; i < elements.size() ; i++) {
+        for (int i = 0; i < elements.size(); i++) {
             Element element = elements.get(i);
             String link = element.select("a").first().attr("href");
-            listLink.add("https://itviec.com/"+ link);
+            listLink.add("https://itviec.com/" + link);
         }
         return listLink;
     }
@@ -88,32 +93,32 @@ public class CrawlService {
         return null;
     }
 
-    public void genFile(){
+    public void genFile() {
         List<JobModel> listJob = jobRepository.findAll();
-        String content=Content.header+"";
-        for (JobModel job: listJob) {
-            content = content +"<div class=\"col-lg-4 col-md-6 grid-item filter1 "+ job.getType()+"\">\n" +
+        String content = Content.header + "";
+        for (JobModel job : listJob) {
+            content = content + "<div class=\"col-lg-4 col-md-6 grid-item filter1 " + job.getType() + "\">\n" +
                     "                        <div class=\"courses-item1 mb-30\" id=\"list-it\">\n" +
                     "                            <div class=\"img-part1\">\n" +
-                    "                                <img src=\""+job.getCompanyLogo()+"\"\n" +
-                    "                                    alt=\""+job.getCompanyName()+"\">\n" +
+                    "                                <img src=\"" + job.getCompanyLogo() + "\"\n" +
+                    "                                    alt=\"" + job.getCompanyName() + "\">\n" +
                     "                            </div>\n" +
                     "                            <div class=\"content-part\">\n" +
-                    "                                <h3 class=\"title mb-10\"><a target=\"_blank\" href=\"#\">"+job.getCompanyName()+"</a>\n" +
+                    "                                <h3 class=\"title mb-10\"><a target=\"_blank\" href=\"#\">" + job.getCompanyName() + "</a>\n" +
                     "                                </h3>\n" +
                     "                                <div class=\"bottom-part\">\n" +
                     "                                    <div class=\"info-meta mb-10\">\n" +
                     "                                        <ul>\n" +
                     "                                            <li>\n" +
-                    "                                                <h4>Vị trí: "+job.getJobTitle()+"</h4>\n" +
+                    "                                                <h4>Vị trí: " + job.getJobTitle() + "</h4>\n" +
                     "                                            </li>\n" +
                     "                                            <li>\n" +
-                    "                                                <h4>Địa điểm: "+job.getCompanyAddress()+"</h4>\n" +
+                    "                                                <h4>Địa điểm: " + job.getCompanyAddress() + "</h4>\n" +
                     "                                            </li>\n" +
                     "                                        </ul>\n" +
                     "                                    </div>\n" +
                     "                                    <div class=\"btn-part\">\n" +
-                    "                                        <a target=\"_blank\" href=\""+job.getLinkJob()+"\"><i class=\"flaticon-right-arrow\"></i></a>\n" +
+                    "                                        <a target=\"_blank\" href=\"" + job.getLinkJob() + "\"><i class=\"flaticon-right-arrow\"></i></a>\n" +
                     "                                    </div>\n" +
                     "                                </div>\n" +
                     "                            </div>\n" +
@@ -123,11 +128,12 @@ public class CrawlService {
         content = content + Content.footer;
         writeToFile(content);
     }
-    public void writeToFile(String content){
+
+    public void writeToFile(String content) {
         String configPath = "";
         File file = new File("");
         configPath = file.getAbsolutePath() + "/frontend/";
-        try{
+        try {
             String filepath = configPath + "list_it.html";
             File listitFile = new File(filepath);
             FileWriter fileWriter = new FileWriter(listitFile);
@@ -137,7 +143,7 @@ public class CrawlService {
             bufferedWriter.close();
             fileWriter.close();
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
         }
     }
