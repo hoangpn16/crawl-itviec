@@ -61,7 +61,7 @@ public class CrawlService {
         Document html = getHtmlContent(url);
 
         String jobTitle = html.select("div.job-details__header").select("h1").text();
-        String companyLogo = html.select("div.employer-long-overview__logo").select("a").first().select("img").attr("src");
+        String companyLogo = html.select("div.employer-long-overview__logo").select("picture").first().select("img").attr("data-src");
         String companyAddress = html.getElementsByClass("svg-icon__text").select("span").text();
         String companyName = html.select("div.employer-long-overview__top-left").select("a").text();
 
