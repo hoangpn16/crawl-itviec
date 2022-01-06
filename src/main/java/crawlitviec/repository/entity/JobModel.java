@@ -18,7 +18,7 @@ public class JobModel {
     @Column(name = "job_title")
     private String jobTitle;
 
-    @Column(name= "company_logo")
+    @Column(name= "company_logo",columnDefinition = "TEXT")
     private String companyLogo;
 
     @Column(name = "company_address")

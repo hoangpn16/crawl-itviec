@@ -43,7 +43,7 @@ public class CrawlService {
     public List<String> parserListLink(String url) {
         List<String> listLink = new ArrayList<>();
         Document html = getHtmlContent(url);
-        Elements elements = html.select("h2.title");
+        Elements elements = html.select("h3.title");
         for (int i = 0; i < elements.size(); i++) {
             Element element = elements.get(i);
             String link = element.select("a").first().attr("href");
@@ -65,13 +65,18 @@ public class CrawlService {
         String companyAddress = html.getElementsByClass("svg-icon__text").select("span").text();
         String companyName = html.select("div.employer-long-overview__top-left").select("a").text();
 
-
-        jobModel.setJobTitle(jobTitle);
-        jobModel.setCompanyLogo(companyLogo);
-        jobModel.setCompanyAddress(companyAddress);
-        jobModel.setCompanyName(companyName);
-        jobModel.setLinkJob(url);
-        jobModel.setType(type);
+        if (jobTitle != null)
+            jobModel.setJobTitle(jobTitle);
+        if (companyLogo != null)
+            jobModel.setCompanyLogo(companyLogo);
+        if (companyAddress != null)
+            jobModel.setCompanyAddress(companyAddress);
+        if (companyName != null)
+            jobModel.setCompanyName(companyName);
+        if (url != null)
+            jobModel.setLinkJob(url);
+        if (type != null)
+            jobModel.setType(type);
 
         return jobModel;
     }
